@@ -1,5 +1,5 @@
 /* ==========================================================================
-   APRIL — дизайн-система
+   Grisha — дизайн-система
    Тёплый молочный фон, графитовый текст, тонкая антиква + гротеск.
    ========================================================================== */
 
@@ -430,7 +430,7 @@ p {
 .hero__word {
   font-family: var(--serif);
   font-weight: 300;
-  font-size: clamp(110px, 27.5vw, 520px);
+  font-size: clamp(80px, 22.5vw, 440px);
   line-height: 0.74;
   letter-spacing: -0.02em;
   display: flex;
@@ -760,7 +760,7 @@ p {
   color: var(--muted);
 }
 
-/* Блок «Собственная линия» */
+/* Блок «О коллекции» */
 
 .label-split {
   display: grid;
@@ -1469,7 +1469,7 @@ p {
 .footer__word {
   font-family: var(--serif);
   font-weight: 300;
-  font-size: 27.5vw;
+  font-size: 22.5vw;
   line-height: 0.74;
   letter-spacing: -0.02em;
   display: flex;
@@ -1566,7 +1566,7 @@ p {
   }
 
   .hero__word {
-    font-size: 27vw;
+    font-size: 23vw;
   }
 
   .hero__foot {

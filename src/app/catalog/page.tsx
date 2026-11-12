@@ -4,7 +4,7 @@ import CatalogView from "./CatalogView";
 
 export const metadata: Metadata = {
   title: "Каталог",
-  description: "Каталог бутика «Апрель»: брюки, трикотаж, деним, юбки, рубашки и верхняя одежда линии Grisha.",
+  description: "Каталог Grisha: брюки, трикотаж, деним, юбки, рубашки и верхняя одежда.",
 };
 
 export default function CatalogPage() {

@@ -22,7 +22,7 @@ export default function Footer() {
           </ul>
         </div>
         <div className="footer__col">
-          <p className="label">Апрель</p>
+          <p className="label">{site.label}</p>
           <ul>
             <li><Link href="/about">О нас</Link></li>
             <li><Link href="/contacts">Бутик</Link></li>
@@ -54,8 +54,8 @@ export default function Footer() {
       </div>
 
       <div className="footer__bottom">
-        <span>© {new Date().getFullYear()} {site.nameRu}</span>
-        <span>Собственная линия {site.label}</span>
+        <span>© {new Date().getFullYear()} {site.label}</span>
+        <span>Бутик на Плющихе с {site.since} года</span>
       </div>
     </footer>
   );

@@ -27,14 +27,14 @@ const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "APRIL — бутик женской одежды в Москве",
-    template: "%s — APRIL",
+    default: "Grisha — бренд женской одежды, Москва",
+    template: "%s — Grisha",
   },
   description:
-    "«Апрель» — бутик женской одежды на Плющихе с 2017 года. Собственная линия Grisha: шерсть, тенсел, хлопок и деним.",
+    "Grisha — бренд женской одежды и бутик на Плющихе с 2017 года. Шерсть, тенсел, хлопок и деним.",
   openGraph: {
-    title: "APRIL — бутик женской одежды в Москве",
-    description: "Бутик на Плющихе с 2017 года. Собственная линия Grisha.",
+    title: "Grisha — бренд женской одежды, Москва",
+    description: "Бренд женской одежды и бутик на Плющихе с 2017 года.",
     images: ["/images/p/skirt-drape-1.webp"],
     locale: "ru_RU",
     type: "website",

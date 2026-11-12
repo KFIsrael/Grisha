@@ -1,6 +1,5 @@
 export const site = {
-  name: "APRIL",
-  nameRu: "Апрель",
+  name: "GRISHA",
   label: "Grisha",
   city: "Москва",
   since: 2017,

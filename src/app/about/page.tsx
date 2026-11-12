@@ -6,7 +6,7 @@ import { site } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "О нас",
-  description: "«Апрель» — бутик женской одежды на Плющихе с 2017 года и собственная линия Grisha.",
+  description: "Grisha — бренд женской одежды и бутик на Плющихе с 2017 года.",
 };
 
 export default function AboutPage() {
@@ -33,9 +33,9 @@ export default function AboutPage() {
       <section className="prose">
         <p className="label" data-reveal>История</p>
         <div className="prose__body" data-reveal style={{ "--d": "120ms" } as React.CSSProperties}>
-          <p>«Апрель» открылся в&nbsp;{site.since} году как мультибрендовый магазин русских дизайнеров в&nbsp;историческом центре Москвы.</p>
+          <p>Наш бутик на&nbsp;Плющихе открылся в&nbsp;{site.since} году как мультибрендовый магазин русских дизайнеров в&nbsp;историческом центре Москвы.</p>
           <p>
-            Со&nbsp;временем мы поняли, каких вещей не&nbsp;хватает нашим покупательницам, и&nbsp;начали делать их сами. Так появилась линия {site.label}: брюки, трикотаж, рубашки и&nbsp;деним, которые носят годами и&nbsp;легко сочетают между собой.
+            Со&nbsp;временем мы поняли, каких вещей не&nbsp;хватает нашим покупательницам, и&nbsp;начали делать их сами. Так появился {site.label}: брюки, трикотаж, рубашки и&nbsp;деним, которые носят годами и&nbsp;легко сочетают между собой.
           </p>
           <p>
             Мы по-прежнему любим живое общение. В&nbsp;бутике можно спокойно примерить всё, что понравилось на&nbsp;сайте, а&nbsp;мы поможем с&nbsp;размером и&nbsp;соберём образ.
@@ -62,7 +62,7 @@ export default function AboutPage() {
         <li data-reveal style={{ "--d": "240ms" } as React.CSSProperties}>
           <span className="label">03</span>
           <h3>Сделано в&nbsp;России</h3>
-          <p>Вещи линии {site.label} производятся в&nbsp;России.</p>
+          <p>Вещи {site.label} производятся в&nbsp;России.</p>
         </li>
       </ul>
     </>

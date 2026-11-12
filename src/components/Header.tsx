@@ -67,7 +67,7 @@ export default function Header() {
           </Link>
         </nav>
 
-        <Link href="/" className="header__logo" aria-label="APRIL — на главную">
+        <Link href="/" className="header__logo" aria-label={`${site.label} — на главную`}>
           {site.name}
         </Link>
 

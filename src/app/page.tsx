@@ -44,7 +44,7 @@ export default function Home() {
           <p className="hero__kicker label" style={{ color: "inherit" }}>
             Осень — зима 2026
           </p>
-          <h1 className="hero__word" aria-label="APRIL">
+          <h1 className="hero__word" aria-label={site.name}>
             {site.name.split("").map((l, i) => (
               <span key={i} style={{ "--i": i } as React.CSSProperties} aria-hidden>
                 {l}
@@ -69,7 +69,7 @@ export default function Home() {
           </p>
           <div className="intro__aside" data-reveal style={{ "--d": "240ms" } as React.CSSProperties}>
             <p>
-              «Апрель» — бутик в&nbsp;историческом центре Москвы. С&nbsp;{site.since} года мы собираем гардероб из&nbsp;базовых вещей, которые легко сочетаются между собой. Собственная линия {site.label} производится в&nbsp;России.
+              {site.label} — бренд женской одежды и&nbsp;бутик в&nbsp;историческом центре Москвы. С&nbsp;{site.since} года мы собираем гардероб из&nbsp;базовых вещей, которые легко сочетаются между собой. Коллекция производится в&nbsp;России.
             </p>
             <Link href="/about" className="link-line">
               История бутика <span aria-hidden>→</span>
@@ -113,7 +113,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Собственная линия */}
+      {/* О коллекции */}
       <section className="section section--tight">
         <div className="label-split">
           <div className="label-split__main" data-reveal>
@@ -121,7 +121,7 @@ export default function Home() {
           </div>
           <div className="label-split__body">
             <div data-reveal style={{ "--d": "150ms" } as React.CSSProperties}>
-              <p className="label">Собственная линия</p>
+              <p className="label">Сделано в&nbsp;России</p>
               <h2 className="label-split__title">{site.label}</h2>
               <p className="label-split__text">
                 Лаконичный крой, спокойная палитра и&nbsp;честные материалы: шерсть, тенсел, плотный хлопок и&nbsp;деним. Вещи, которые работают сезон за&nbsp;сезоном.

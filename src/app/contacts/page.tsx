@@ -5,7 +5,7 @@ import { site, whatsappLink } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Бутик и контакты",
-  description: `Бутик «Апрель»: ${site.address}. Заказ и примерка через WhatsApp ${site.phone}.`,
+  description: `Бутик Grisha: ${site.address}. Заказ и примерка через WhatsApp ${site.phone}.`,
 };
 
 export default function ContactsPage() {
