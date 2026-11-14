@@ -9,7 +9,6 @@ export const site = {
   whatsapp: "79264810639",
   telegram: "https://t.me/april_moscow",
   instagram: "https://www.instagram.com/aprilmoscow/",
-  wildberries: "https://www.wildberries.ru/brands/312200728-grisha-official",
   mapUrl:
     "https://yandex.ru/maps/?text=" +
     encodeURIComponent("Москва, улица Плющиха, 20/2"),
@@ -20,6 +19,3 @@ export function whatsappLink(text?: string) {
   return text ? `${base}?text=${encodeURIComponent(text)}` : base;
 }
 
-export function wbProductLink(nm: number) {
-  return `https://www.wildberries.ru/catalog/${nm}/detail.aspx`;
-}

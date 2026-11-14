@@ -1,18 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { wbProductLink, whatsappLink } from "@/data/site";
+import { whatsappLink } from "@/data/site";
 
 export default function ProductActions({
   name,
   color,
   sizes,
-  wb,
 }: {
   name: string;
   color: string;
   sizes: string[];
-  wb?: number;
 }) {
   const single = sizes.length === 1;
   const [size, setSize] = useState<string | null>(single ? sizes[0] : null);
@@ -46,11 +44,6 @@ export default function ProductActions({
         <a href={whatsappLink(message)} className="btn btn--block" target="_blank" rel="noopener">
           {size ? "Заказать в WhatsApp" : "Уточнить в WhatsApp"}
         </a>
-        {wb && (
-          <a href={wbProductLink(wb)} className="btn btn--ghost btn--block" target="_blank" rel="noopener">
-            Купить на Wildberries
-          </a>
-        )}
       </div>
     </>
   );

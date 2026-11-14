@@ -42,10 +42,6 @@ export default function ContactsPage() {
             <span className="label">Instagram</span>
             <a href={site.instagram} target="_blank" rel="noopener">@aprilmoscow</a>
           </div>
-          <div className="contacts__row">
-            <span className="label">Wildberries</span>
-            <a href={site.wildberries} target="_blank" rel="noopener">{site.label} Official</a>
-          </div>
         </div>
         <a href={site.mapUrl} target="_blank" rel="noopener" className="contacts__map" data-reveal style={{ "--d": "150ms" } as React.CSSProperties}>
           <Image src={img("trousers-lowrise-black", 1)} alt="" fill sizes="(max-width: 768px) 100vw, 50vw" />
@@ -76,7 +72,7 @@ export default function ContactsPage() {
           <li>
             <div>
               <strong>Примерка или доставка</strong>
-              Заберите заказ на Плющихе или оформите его с доставкой на Wildberries.
+              Заберите заказ в бутике на Плющихе или договоритесь с нами о доставке.
             </div>
           </li>
         </ol>

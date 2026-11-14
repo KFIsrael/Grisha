@@ -31,10 +31,10 @@ export const metadata: Metadata = {
     template: "%s — Grisha",
   },
   description:
-    "Grisha — бренд женской одежды и бутик на Плющихе с 2017 года. Шерсть, тенсел, хлопок и деним.",
+    "Grisha — бренд женской одежды из Москвы и бутик на Плющихе. Шерсть, тенсел, хлопок и деним.",
   openGraph: {
     title: "Grisha — бренд женской одежды, Москва",
-    description: "Бренд женской одежды и бутик на Плющихе с 2017 года.",
+    description: "Бренд женской одежды из Москвы и бутик на Плющихе.",
     images: ["/images/p/skirt-drape-1.webp"],
     locale: "ru_RU",
     type: "website",

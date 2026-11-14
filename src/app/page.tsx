@@ -52,7 +52,7 @@ export default function Home() {
             ))}
           </h1>
           <div className="hero__foot">
-            <span>Бутик на Плющихе · с {site.since}</span>
+            <span>Бутик · {site.addressShort}</span>
             <Link href="/catalog" className="link-line">
               Смотреть коллекцию <span aria-hidden>→</span>
             </Link>
@@ -69,7 +69,7 @@ export default function Home() {
           </p>
           <div className="intro__aside" data-reveal style={{ "--d": "240ms" } as React.CSSProperties}>
             <p>
-              {site.label} — бренд женской одежды и&nbsp;бутик в&nbsp;историческом центре Москвы. С&nbsp;{site.since} года мы собираем гардероб из&nbsp;базовых вещей, которые легко сочетаются между собой. Коллекция производится в&nbsp;России.
+              {site.label} — бренд женской одежды из&nbsp;Москвы. Мы работаем с&nbsp;{site.since} года: начинали как магазин русских дизайнеров, а&nbsp;теперь собираем гардероб из&nbsp;собственных базовых вещей, которые легко сочетаются между собой.
             </p>
             <Link href="/about" className="link-line">
               История бутика <span aria-hidden>→</span>
@@ -179,7 +179,7 @@ export default function Home() {
           <ol className="steps">
             <li>Выберите вещь и размер на сайте.</li>
             <li>Напишите нам в WhatsApp — подтвердим наличие и отложим.</li>
-            <li>Примерьте в бутике на Плющихе или закажите на Wildberries.</li>
+            <li>Примерьте и заберите в бутике на Плющихе — или договоримся о доставке.</li>
           </ol>
           <div className="boutique__btns">
             <a href={whatsappLink("Здравствуйте! Хочу прийти на примерку.")} className="btn btn--light" target="_blank" rel="noopener">

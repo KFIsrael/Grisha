@@ -32,7 +32,7 @@ export type Product = {
   care?: string;
   description: string;
   fit?: string;
-  wb?: number; // артикул на Wildberries, если товар там есть
+  wb?: number; // артикул на Wildberries, откуда взяты фото; на сайте не показывается
   images: number; // количество фото: /images/p/{slug}-{1..n}.webp
 };
 

@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="footer__grid">
         <div className="footer__col footer__col--lead">
           <p className="footer__lead">
-            Бутик женской одежды в&nbsp;историческом центре Москвы. С&nbsp;{site.since} года.
+            Бренд женской одежды и&nbsp;бутик в&nbsp;историческом центре Москвы.
           </p>
         </div>
         <div className="footer__col">
@@ -35,7 +35,6 @@ export default function Footer() {
             <li><a href={whatsappLink()} target="_blank" rel="noopener">WhatsApp</a></li>
             <li><a href={site.telegram} target="_blank" rel="noopener">Telegram</a></li>
             <li><a href={site.instagram} target="_blank" rel="noopener">Instagram</a></li>
-            <li><a href={site.wildberries} target="_blank" rel="noopener">Wildberries</a></li>
           </ul>
         </div>
         <div className="footer__col">
@@ -55,7 +54,7 @@ export default function Footer() {
 
       <div className="footer__bottom">
         <span>© {new Date().getFullYear()} {site.label}</span>
-        <span>Бутик на Плющихе с {site.since} года</span>
+        <span>Работаем с {site.since} года</span>
       </div>
     </footer>
   );

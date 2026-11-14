@@ -57,7 +57,7 @@ export default async function ProductPage({ params }: Props) {
             </div>
           </div>
 
-          <ProductActions name={p.name} color={p.color} sizes={p.sizes} wb={p.wb} />
+          <ProductActions name={p.name} color={p.color} sizes={p.sizes} />
 
           <p className="pdp__note">
             Примерить можно в бутике: {site.addressShort}. Напишите заранее — отложим нужный размер.
@@ -81,10 +81,7 @@ export default async function ProductPage({ params }: Props) {
             <details>
               <summary>Примерка и заказ</summary>
               <div className="details__body">
-                <p>
-                  Подтвердим наличие и отложим вещь в бутике на Плющихе.
-                  {p.wb ? " Заказать с доставкой можно на Wildberries." : " О доставке договоримся в WhatsApp."}
-                </p>
+                <p>Подтвердим наличие и отложим вещь в бутике на Плющихе. О доставке договоримся в WhatsApp.</p>
               </div>
             </details>
           </div>
