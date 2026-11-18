@@ -27,6 +27,10 @@ export default function ContactsPage() {
             <a href={site.mapUrl} target="_blank" rel="noopener">{site.address}</a>
           </div>
           <div className="contacts__row">
+            <span className="label">Часы</span>
+            <span>{site.hours}</span>
+          </div>
+          <div className="contacts__row">
             <span className="label">Телефон</span>
             <a href={`tel:+${site.whatsapp}`}>{site.phone}</a>
           </div>
