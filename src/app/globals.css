@@ -1457,10 +1457,8 @@ p {
 
 .footer__grid {
   display: grid;
-  /* колонки ссылок по ширине содержимого, с одинаковыми промежутками между ними */
-  grid-template-columns: minmax(0, 1fr) repeat(4, auto);
+  grid-template-columns: 2fr repeat(4, 1fr);
   gap: var(--pad);
-  column-gap: clamp(48px, 6vw, 112px);
 }
 
 .footer__lead {
@@ -1746,8 +1744,7 @@ p {
   }
 
   .footer__grid {
-    grid-template-columns: repeat(4, auto);
-    justify-content: space-between;
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .footer__col--lead {
