@@ -31,7 +31,7 @@ export default function Home() {
         <div className="hero__media">
           <div className="hero__frame">
             <div className="hero__parallax">
-              <Image src={img("skirt-drape", 1)} alt="Юбка-карандаш с драпировкой и белая рубашка" fill priority sizes="(max-width: 768px) 100vw, 50vw" quality={85} />
+              <Image src="/images/p/hero-parka-khaki.webp" alt="Куртка-парка хаки с меховым капюшоном" fill priority sizes="(max-width: 768px) 100vw, 50vw" quality={85} />
             </div>
           </div>
           <div className="hero__frame">

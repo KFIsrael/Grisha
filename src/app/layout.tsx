@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Grisha — бренд женской одежды, Москва",
     description: "Бренд женской одежды из Москвы и бутик на Плющихе.",
-    images: ["/images/p/skirt-drape-1.webp"],
+    images: ["/images/p/hero-parka-khaki.webp"],
     locale: "ru_RU",
     type: "website",
   },
