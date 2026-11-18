@@ -3,9 +3,14 @@ import { legalDocs } from "@/components/LegalDoc";
 import { categories } from "@/data/products";
 import { site, whatsappLink } from "@/data/site";
 
-// Порядок категорий в подвале: от самой короткой строки к самой длинной.
-// Новую категорию добавьте сюда, иначе она не появится в подвале.
-const footerOrder = ["skirts", "trousers", "denim", "dresses", "knit", "tops", "outerwear"] as const;
+// Порядок категорий в подвале «ёлочкой»: от самой короткой строки к самой длинной.
+// Категории, которых нет в этом списке, встанут в конец, а не пропадут.
+const footerOrder: string[] = ["skirts", "trousers", "denim", "dresses", "knit", "tops", "outerwear"];
+const footerCategories = [...categories].sort((a, b) => {
+  const ia = footerOrder.indexOf(a.key);
+  const ib = footerOrder.indexOf(b.key);
+  return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+});
 
 export default function Footer() {
   return (
@@ -20,7 +25,7 @@ export default function Footer() {
           <p className="label">Каталог</p>
           <ul>
             {/* «ёлочкой»: от короткого названия к длинному (по ширине на экране) */}
-            {footerOrder.map((key) => categories.find((c) => c.key === key)!).map((c) => (
+            {footerCategories.map((c) => (
               <li key={c.key}>
                 <Link href={`/catalog?c=${c.key}`}>{c.title}</Link>
               </li>
@@ -42,6 +47,7 @@ export default function Footer() {
             <li><a href={site.telegram} target="_blank" rel="noopener">Telegram</a></li>
             <li><a href={site.instagram} target="_blank" rel="noopener">Instagram</a></li>
             <li><a href={whatsappLink()} target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
           </ul>
         </div>
         <div className="footer__col">

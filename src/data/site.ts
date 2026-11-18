@@ -7,6 +7,7 @@ export const site = {
   addressShort: "Плющиха, 20/2",
   hours: "Ежедневно, 12:00–20:00",
   phone: "+7 926 481-06-39",
+  email: "clientcare@grisha.shop",
   whatsapp: "79264810639",
   telegram: "https://t.me/april_moscow", // канал бутика
   telegramManager: "https://t.me/+79264810639", // менеджер, тот же номер
