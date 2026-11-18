@@ -405,6 +405,11 @@ p {
   animation-delay: 0.15s;
 }
 
+/* На широком экране кадр режется сверху и снизу: держим верх, чтобы не срезать голову */
+.hero__frame:first-child img {
+  object-position: 50% 0%;
+}
+
 .hero__overlay {
   position: absolute;
   inset: 0;
