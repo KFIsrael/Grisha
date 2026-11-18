@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { legalDocs } from "@/components/LegalDoc";
 import { categories } from "@/data/products";
 import { site, whatsappLink } from "@/data/site";
 
@@ -27,6 +28,7 @@ export default function Footer() {
             <li><Link href="/about">О нас</Link></li>
             <li><Link href="/contacts">Бутик</Link></li>
             <li><Link href="/contacts#order">Как заказать</Link></li>
+            <li><Link href="/delivery">Оплата и доставка</Link></li>
           </ul>
         </div>
         <div className="footer__col">
@@ -41,6 +43,7 @@ export default function Footer() {
           <p className="label">Адрес</p>
           <ul>
             <li><a href={site.mapUrl} target="_blank" rel="noopener">{site.address}</a></li>
+            <li>{site.hours}</li>
             <li><a href={`tel:+${site.whatsapp}`}>{site.phone}</a></li>
           </ul>
         </div>
@@ -50,6 +53,21 @@ export default function Footer() {
         {site.name.split("").map((l, i) => (
           <span key={i}>{l}</span>
         ))}
+      </div>
+
+      <div className="footer__legal">
+        <p>
+          {site.legal.name} · ИНН {site.legal.inn} · ОГРН {site.legal.ogrn} · {site.legal.address}
+        </p>
+        <ul>
+          {legalDocs
+            .filter((d) => d.href !== "/delivery")
+            .map((d) => (
+              <li key={d.href}>
+                <Link href={d.href}>{d.title}</Link>
+              </li>
+            ))}
+        </ul>
       </div>
 
       <div className="footer__bottom">

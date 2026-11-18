@@ -1480,6 +1480,32 @@ p {
   user-select: none;
 }
 
+.footer__legal {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px 32px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.footer__legal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+}
+
+.footer__legal a {
+  transition: color 0.3s var(--ease);
+}
+
+.footer__legal a:hover {
+  color: var(--ink);
+}
+
 .footer__bottom {
   display: flex;
   justify-content: space-between;
@@ -1501,6 +1527,180 @@ p {
   gap: 28px;
   text-align: center;
   padding: var(--pad);
+}
+
+/* ==========================================================================
+   Документы: оферта, политика, доставка
+   ========================================================================== */
+
+.doc {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--pad);
+  padding: calc(var(--header-h) + clamp(40px, 8vh, 96px)) var(--pad) clamp(80px, 12vh, 140px);
+}
+
+.doc__nav {
+  grid-column: 1 / 4;
+  align-self: start;
+  position: sticky;
+  top: calc(var(--header-h) + 28px);
+  display: grid;
+  gap: 16px;
+}
+
+.doc__nav ul {
+  display: grid;
+  gap: 10px;
+  max-width: 240px;
+}
+
+.doc__nav a {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+  transition: color 0.3s var(--ease);
+}
+
+.doc__nav a:hover,
+.doc__nav a[aria-current="page"] {
+  color: var(--ink);
+}
+
+.doc__main {
+  grid-column: 4 / 11;
+  min-width: 0;
+}
+
+.doc__title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(38px, 4.4vw, 68px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.doc__meta {
+  margin-top: 20px;
+}
+
+.doc__lead {
+  margin-top: 24px;
+  max-width: 620px;
+  font-family: var(--serif);
+  font-size: clamp(20px, 1.8vw, 26px);
+  line-height: 1.3;
+  font-weight: 300;
+}
+
+.doc__body {
+  margin-top: clamp(40px, 7vh, 72px);
+  max-width: 720px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+
+.doc__body h2 {
+  margin: 48px 0 16px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.doc__body h2:first-child {
+  margin-top: 0;
+}
+
+.doc__body p + p,
+.doc__body p + ul,
+.doc__body ul + p,
+.doc__body dl + p {
+  margin-top: 12px;
+}
+
+.doc__body ul {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.doc__body ul li {
+  position: relative;
+  padding-left: 22px;
+}
+
+.doc__body ul li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+
+.doc__body a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.doc__body strong {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.doc__req {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) 1fr;
+  margin: 0;
+}
+
+.doc__req dt,
+.doc__req dd {
+  margin: 0;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.doc__req dt {
+  color: var(--muted);
+}
+
+.doc__req dd {
+  color: var(--ink);
+}
+
+@media (max-width: 768px) {
+  .doc {
+    grid-template-columns: 1fr;
+    row-gap: 40px;
+  }
+
+  .doc__nav {
+    grid-row: 2;
+    position: static;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+
+  .doc__nav,
+  .doc__main {
+    grid-column: 1 / -1;
+  }
+
+  .doc__req {
+    grid-template-columns: 1fr;
+  }
+
+  .doc__req dd {
+    border-top: 0;
+    padding-top: 0;
+  }
 }
 
 /* ==========================================================================
@@ -1767,6 +1967,10 @@ p {
   .footer__bottom {
     flex-direction: column;
     gap: 6px;
+  }
+
+  .footer__legal ul {
+    flex-direction: column;
   }
 }
 
