@@ -749,8 +749,22 @@ p {
   font-size: 13px;
 }
 
+.card__name {
+  min-width: 0;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
 .card__price {
   white-space: nowrap;
+}
+
+/* На узких телефонах длинное название выталкивало цену за край экрана */
+@media (max-width: 400px) {
+  .card__meta {
+    flex-direction: column;
+    gap: 2px;
+  }
 }
 
 .card__color {
