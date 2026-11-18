@@ -3,6 +3,10 @@ import { legalDocs } from "@/components/LegalDoc";
 import { categories } from "@/data/products";
 import { site, whatsappLink } from "@/data/site";
 
+// Порядок категорий в подвале: от самой короткой строки к самой длинной.
+// Новую категорию добавьте сюда, иначе она не появится в подвале.
+const footerOrder = ["skirts", "trousers", "denim", "dresses", "knit", "tops", "outerwear"] as const;
+
 export default function Footer() {
   return (
     <footer className="footer">
@@ -15,7 +19,8 @@ export default function Footer() {
         <div className="footer__col">
           <p className="label">Каталог</p>
           <ul>
-            {categories.map((c) => (
+            {/* «ёлочкой»: от короткого названия к длинному (по ширине на экране) */}
+            {footerOrder.map((key) => categories.find((c) => c.key === key)!).map((c) => (
               <li key={c.key}>
                 <Link href={`/catalog?c=${c.key}`}>{c.title}</Link>
               </li>
@@ -34,17 +39,17 @@ export default function Footer() {
         <div className="footer__col">
           <p className="label">Связь</p>
           <ul>
-            <li><a href={whatsappLink()} target="_blank" rel="noopener">WhatsApp</a></li>
             <li><a href={site.telegram} target="_blank" rel="noopener">Telegram</a></li>
             <li><a href={site.instagram} target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href={whatsappLink()} target="_blank" rel="noopener">WhatsApp</a></li>
           </ul>
         </div>
         <div className="footer__col">
           <p className="label">Адрес</p>
           <ul>
-            <li><a href={site.mapUrl} target="_blank" rel="noopener">{site.address}</a></li>
-            <li>{site.hours}</li>
             <li><a href={`tel:+${site.whatsapp}`}>{site.phone}</a></li>
+            <li>{site.hours}</li>
+            <li><a href={site.mapUrl} target="_blank" rel="noopener">{site.address}</a></li>
           </ul>
         </div>
       </div>
