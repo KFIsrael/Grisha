@@ -1291,6 +1291,7 @@ p {
   border-top: 1px solid var(--line);
   padding-top: 24px;
   display: grid;
+  align-content: start;
   gap: 12px;
   color: var(--ink-2);
 }
@@ -1649,6 +1650,28 @@ p {
 
   .label-split__small {
     display: none;
+  }
+
+  /* На телефоне отступы через vh давали между секциями ~240px пустоты */
+  .section,
+  .boutique,
+  .prose,
+  .order {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+  .section--tight {
+    padding-top: 24px;
+  }
+
+  .values,
+  .contacts {
+    padding-bottom: 64px;
+  }
+
+  .footer {
+    padding-top: 56px;
   }
 
   .boutique__side {

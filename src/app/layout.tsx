@@ -20,9 +20,7 @@ const sans = Inter_Tight({
   display: "swap",
 });
 
-const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "http://localhost:3000";
+const siteUrl = "https://grisha.shop";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

@@ -4,6 +4,7 @@
 // как только появится число, оно само выведется на карточке и в каталоге.
 
 export type CategoryKey =
+  | "dresses"
   | "outerwear"
   | "knit"
   | "tops"
@@ -12,6 +13,7 @@ export type CategoryKey =
   | "skirts";
 
 export const categories: { key: CategoryKey; title: string }[] = [
+  { key: "dresses", title: "Платья" },
   { key: "outerwear", title: "Верхняя одежда" },
   { key: "knit", title: "Трикотаж" },
   { key: "tops", title: "Рубашки и топы" },
