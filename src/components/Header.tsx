@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { categories } from "@/data/products";
+import Logo from "@/components/Logo";
 import { site, whatsappLink } from "@/data/site";
 
 export default function Header() {
@@ -68,7 +69,7 @@ export default function Header() {
         </nav>
 
         <Link href="/" className="header__logo" aria-label={`${site.label} — на главную`}>
-          {site.name}
+          <Logo title={site.label} />
         </Link>
 
         <div className="header__side header__side--end">

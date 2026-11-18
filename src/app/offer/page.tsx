@@ -51,7 +51,6 @@ export default function OfferPage() {
       <p>3.1. Заказ оформляется через менеджера одним из способов:</p>
       <ul>
         <li>в WhatsApp или Telegram по номеру {site.phone};</li>
-        <li>в Instagram @aprilmoscow;</li>
         <li>по телефону {site.phone};</li>
         <li>в бутике по адресу {site.address}.</li>
       </ul>

@@ -11,12 +11,12 @@ export const site = {
   whatsapp: "79264810639",
   telegram: "https://t.me/april_moscow", // канал бутика
   telegramManager: "https://t.me/+79264810639", // менеджер, тот же номер
-  instagramDirect: "https://ig.me/m/aprilmoscow",
-  instagram: "https://www.instagram.com/aprilmoscow/",
   mapUrl:
     "https://yandex.ru/maps/?text=" +
     encodeURIComponent("Москва, улица Плющиха, 20/2"),
   domain: "grisha.shop",
+  // Номер счётчика Яндекс Метрики. Пока null, Метрика и плашка про cookie не показываются.
+  metrikaId: null as number | null,
   // Продавец и оператор персональных данных: выводится в подвале и в документах
   legal: {
     name: "ООО «АПРЕЛЬ ФЭШН»",

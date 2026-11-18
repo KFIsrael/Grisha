@@ -13,14 +13,13 @@ export default function DeliveryPage() {
     <LegalDoc
       current="/delivery"
       title="Оплата, доставка и возврат"
-      lead="Закажите вещь у менеджера в мессенджере или по телефону. Забрать её можно в бутике или с доставкой."
+      lead="Закажите вещь у менеджера в WhatsApp, Telegram или по телефону. Забрать её можно в бутике или с доставкой."
     >
       <h2>Как заказать</h2>
       <p>
         Напишите менеджеру в{" "}
-        <a href={whatsappLink()} target="_blank" rel="noopener">WhatsApp</a>,{" "}
-        <a href={site.telegramManager} target="_blank" rel="noopener">Telegram</a> или{" "}
-        <a href={site.instagramDirect} target="_blank" rel="noopener">Instagram</a>. Можно и позвонить:{" "}
+        <a href={whatsappLink()} target="_blank" rel="noopener">WhatsApp</a> или{" "}
+        <a href={site.telegramManager} target="_blank" rel="noopener">Telegram</a>. Можно и позвонить:{" "}
         <a href={`tel:+${site.whatsapp}`}>{site.phone}</a>.
       </p>
       <p>Назовите вещь, цвет и размер. Менеджер проверит наличие и подтвердит заказ.</p>

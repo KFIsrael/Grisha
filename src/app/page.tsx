@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import ProductCard from "@/components/ProductCard";
 import Rail from "@/components/Rail";
 import { img, products } from "@/data/products";
@@ -44,12 +45,8 @@ export default function Home() {
           <p className="hero__kicker label" style={{ color: "inherit" }}>
             Осень — зима 2026
           </p>
-          <h1 className="hero__word" aria-label={site.name}>
-            {site.name.split("").map((l, i) => (
-              <span key={i} style={{ "--i": i } as React.CSSProperties} aria-hidden>
-                {l}
-              </span>
-            ))}
+          <h1 className="hero__word">
+            <Logo title={site.label} />
           </h1>
           <div className="hero__foot">
             <span>Бутик · {site.addressShort}</span>

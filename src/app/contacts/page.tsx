@@ -5,7 +5,7 @@ import { site, whatsappLink } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Бутик и контакты",
-  description: `Бутик Grisha: ${site.address}. Заказ и примерка через WhatsApp ${site.phone}.`,
+  description: `Бутик Grisha: ${site.address}. Заказ по телефону ${site.phone}, в WhatsApp и Telegram.`,
 };
 
 export default function ContactsPage() {
@@ -40,11 +40,11 @@ export default function ContactsPage() {
           </div>
           <div className="contacts__row">
             <span className="label">Telegram</span>
-            <a href={site.telegram} target="_blank" rel="noopener">@april_moscow</a>
+            <a href={site.telegramManager} target="_blank" rel="noopener">Написать</a>
           </div>
           <div className="contacts__row">
-            <span className="label">Instagram</span>
-            <a href={site.instagram} target="_blank" rel="noopener">@aprilmoscow</a>
+            <span className="label">Канал</span>
+            <a href={site.telegram} target="_blank" rel="noopener">@april_moscow в Telegram</a>
           </div>
         </div>
         <a href={site.mapUrl} target="_blank" rel="noopener" className="contacts__map" data-reveal style={{ "--d": "150ms" } as React.CSSProperties}>
@@ -64,13 +64,13 @@ export default function ContactsPage() {
           <li>
             <div>
               <strong>Выберите вещь</strong>
-              В каталоге отметьте нужный размер и нажмите «Заказать в WhatsApp» — сообщение с названием и размером заполнится само.
+              Отметьте размер на странице товара и напишите нам в WhatsApp или Telegram — текст заказа подготовится сам. Можно и позвонить.
             </div>
           </li>
           <li>
             <div>
-              <strong>Мы подтвердим наличие</strong>
-              Ответим в WhatsApp и отложим вещь в бутике.
+              <strong>Подтвердим заказ</strong>
+              Менеджер проверит наличие и пришлёт ссылку на оплату. Если хотите сначала примерить, отложим вещь в бутике.
             </div>
           </li>
           <li>

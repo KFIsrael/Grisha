@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { legalDocs } from "@/components/LegalDoc";
+import Logo from "@/components/Logo";
 import { categories } from "@/data/products";
 import { site, whatsappLink } from "@/data/site";
 
@@ -45,7 +46,6 @@ export default function Footer() {
           <p className="label">Связь</p>
           <ul>
             <li><a href={site.telegram} target="_blank" rel="noopener">Telegram</a></li>
-            <li><a href={site.instagram} target="_blank" rel="noopener">Instagram</a></li>
             <li><a href={whatsappLink()} target="_blank" rel="noopener">WhatsApp</a></li>
             <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
           </ul>
@@ -61,9 +61,7 @@ export default function Footer() {
       </div>
 
       <div className="footer__word" aria-hidden>
-        {site.name.split("").map((l, i) => (
-          <span key={i}>{l}</span>
-        ))}
+        <Logo />
       </div>
 
       <div className="footer__legal">

@@ -81,7 +81,10 @@ export default async function ProductPage({ params }: Props) {
             <details>
               <summary>Примерка и заказ</summary>
               <div className="details__body">
-                <p>Подтвердим наличие и отложим вещь в бутике на Плющихе. О доставке договоримся в WhatsApp.</p>
+                <p>
+                  Менеджер подтвердит наличие и пришлёт ссылку на оплату. Вещь можно забрать и примерить в бутике на
+                  Плющихе или получить с доставкой. <Link href="/delivery">Оплата, доставка и возврат</Link>
+                </p>
               </div>
             </details>
           </div>

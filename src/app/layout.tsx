@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter_Tight } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RevealObserver from "@/components/RevealObserver";
+import Analytics from "@/components/Analytics";
 import "./globals.css";
 
 const serif = Cormorant_Garamond({
@@ -21,6 +22,8 @@ const sans = Inter_Tight({
 });
 
 const siteUrl = "https://grisha.shop";
+// Черновик на Vercel закрыт от поисковиков, чтобы не дублировать grisha.shop
+const isDraft = Boolean(process.env.VERCEL);
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -37,6 +40,7 @@ export const metadata: Metadata = {
     locale: "ru_RU",
     type: "website",
   },
+  robots: isDraft ? { index: false, follow: false } : undefined,
 };
 
 export const viewport: Viewport = {
@@ -51,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <Footer />
         <RevealObserver />
+        <Analytics />
       </body>
     </html>
   );
