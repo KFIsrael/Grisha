@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { legalDocs } from "@/components/LegalDoc";
 import Logo from "@/components/Logo";
-import { categories } from "@/data/products";
+import { activeCategories } from "@/data/products";
 import { site, whatsappLink } from "@/data/site";
 
 // Порядок категорий в подвале «ёлочкой»: от самой короткой строки к самой длинной.
 // Категории, которых нет в этом списке, встанут в конец, а не пропадут.
 const footerOrder: string[] = ["skirts", "trousers", "denim", "dresses", "knit", "tops", "outerwear"];
-const footerCategories = [...categories].sort((a, b) => {
+const footerCategories = [...activeCategories].sort((a, b) => {
   const ia = footerOrder.indexOf(a.key);
   const ib = footerOrder.indexOf(b.key);
   return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);

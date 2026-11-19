@@ -7,19 +7,20 @@ import { img, products } from "@/data/products";
 import { site, whatsappLink } from "@/data/site";
 
 const tiles = [
-  { href: "/catalog?c=trousers", title: "Брюки", src: "/images/p/look-palazzo.webp", cls: "tile--a" },
-  { href: "/catalog?c=knit", title: "Трикотаж", src: "/images/p/look-hoodie-grey.webp", cls: "tile--b" },
-  { href: "/catalog?c=denim", title: "Деним", src: "/images/p/look-white-tank.webp", cls: "tile--c" },
+  { href: "/catalog?c=dresses", title: "Платья", src: img("midi-dress-burgundy", 2), cls: "tile--a" },
+  { href: "/catalog?c=outerwear", title: "Верхняя одежда", src: img("puffer-down", 3), cls: "tile--b" },
+  { href: "/catalog?c=knit", title: "Трикотаж", src: img("polo-longsleeve-grey", 2), cls: "tile--c" },
 ];
 
+// Каждый образ ведёт на товар из каталога: slug и номер фото
 const looks = [
-  { src: "look-stripe-graphite", slug: "jeans-wide-graphite", cap: "Лонгслив в полоску, джинсы на кулиске" },
-  { src: "look-biker-skirt", slug: "biker-jacket", cap: "Косуха из эко-кожи, юбка миди" },
-  { src: "look-red-turtleneck", slug: "jeans-wide-black", cap: "Широкие джинсы, чёрные" },
-  { src: "look-white-shirt", slug: "trousers-lowrise-black", cap: "Укороченные брюки, белая рубашка" },
-  { src: "look-hoodie-beige", slug: "hoodie-zip-beige", cap: "Худи на молнии, джинсы" },
-  { src: "look-red-skirt", slug: "skirt-pleated-red", cap: "Юбка миди со складками" },
-  { src: "look-stripe-crouch", slug: "longsleeve-stripe", cap: "Лонгслив в полоску" },
+  { slug: "mini-dress-pink", n: 2, cap: "Платье мини с пышной юбкой" },
+  { slug: "parka-fur", n: 4, cap: "Парка с меховым жилетом, рубашка в клетку" },
+  { slug: "polo-longsleeve-black", n: 2, cap: "Лонгслив поло, чёрный" },
+  { slug: "hoodie-zip-grey", n: 6, cap: "Худи-бомбер и брюки-джоггеры" },
+  { slug: "jeans-straight-blue", n: 3, cap: "Прямые джинсы, чёрная рубашка" },
+  { slug: "mini-strapless-red", n: 3, cap: "Платье-бюстье мини, красное" },
+  { slug: "down-vest-red", n: 1, cap: "Стёганый жилет" },
 ];
 
 export default function Home() {
@@ -114,21 +115,21 @@ export default function Home() {
       <section className="section section--tight">
         <div className="label-split">
           <div className="label-split__main" data-reveal>
-            <Image src={img("biker-jacket", 2)} alt="Косуха из эко-кожи" fill sizes="(max-width: 768px) 100vw, 58vw" />
+            <Image src={img("down-vest-red", 2)} alt="Стёганый жилет, красный" fill sizes="(max-width: 768px) 100vw, 58vw" />
           </div>
           <div className="label-split__body">
             <div data-reveal style={{ "--d": "150ms" } as React.CSSProperties}>
               <p className="label">Сделано в&nbsp;России</p>
               <h2 className="label-split__title">{site.label}</h2>
               <p className="label-split__text">
-                Лаконичный крой, спокойная палитра и&nbsp;честные материалы: шерсть, тенсел, плотный хлопок и&nbsp;деним. Вещи, которые работают сезон за&nbsp;сезоном.
+                Лаконичный крой и&nbsp;спокойная палитра: платья с&nbsp;пышной юбкой, тёплая верхняя одежда, трикотаж и&nbsp;деним. Вещи, которые работают сезон за&nbsp;сезоном.
               </p>
               <Link href="/catalog" className="link-line">
                 Вся коллекция <span aria-hidden>→</span>
               </Link>
             </div>
             <div className="label-split__small" data-reveal style={{ "--d": "300ms" } as React.CSSProperties}>
-              <Image src={img("palazzo-wool", 3)} alt="Брюки-палаццо из шерсти" fill sizes="20vw" />
+              <Image src={img("skirt-drape", 3)} alt="Юбка-карандаш с драпировкой" fill sizes="20vw" />
             </div>
           </div>
         </div>
@@ -145,9 +146,9 @@ export default function Home() {
         <div data-reveal style={{ "--d": "120ms" } as React.CSSProperties}>
           <Rail label="Образы" className="rail--looks">
             {looks.map((l, i) => (
-              <Link key={l.src} href={`/catalog/${l.slug}`} className="look">
+              <Link key={l.slug} href={`/catalog/${l.slug}`} className="look">
                 <div className="look__media">
-                  <Image src={`/images/p/${l.src}.webp`} alt={l.cap} fill sizes="(max-width: 768px) 78vw, 28vw" />
+                  <Image src={img(l.slug, l.n)} alt={l.cap} fill sizes="(max-width: 768px) 78vw, 28vw" />
                 </div>
                 <div className="look__cap">
                   <span className="look__num">{String(i + 1).padStart(2, "0")}</span>

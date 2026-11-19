@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { categories } from "@/data/products";
+import { activeCategories } from "@/data/products";
 import Logo from "@/components/Logo";
 import { site, whatsappLink } from "@/data/site";
 
@@ -91,7 +91,7 @@ export default function Header() {
             <li><Link href="/contacts">Бутик</Link></li>
           </ul>
           <ul className="menu__cats">
-            {categories.map((c) => (
+            {activeCategories.map((c) => (
               <li key={c.key}>
                 <Link href={`/catalog?c=${c.key}`}>{c.title}</Link>
               </li>

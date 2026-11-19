@@ -17,18 +17,32 @@ declare global {
 
 const KEY = "grisha-cookie-consent"; // "all" | "necessary"
 
+// Код счётчика из кабинета Метрики (те же настройки), только загрузка — после согласия
 function loadMetrika(id: number) {
   if (window.ym) return;
-  const ym: Ym = (...args) => {
-    (ym.a = ym.a || []).push(args);
-  };
+  const ym = function () {
+    // eslint-disable-next-line prefer-rest-params
+    (ym.a = ym.a || []).push(arguments);
+  } as unknown as Ym;
   ym.l = Date.now();
   window.ym = ym;
-  const s = document.createElement("script");
-  s.async = true;
-  s.src = "https://mc.yandex.ru/metrika/tag.js";
-  document.head.appendChild(s);
-  ym(id, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true });
+  const src = `https://mc.yandex.ru/metrika/tag.js?id=${id}`;
+  if (![...document.scripts].some((s) => s.src === src)) {
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = src;
+    document.head.appendChild(s);
+  }
+  ym(id, "init", {
+    ssr: true,
+    webvisor: true,
+    clickmap: true,
+    ecommerce: "dataLayer",
+    referrer: document.referrer,
+    url: location.href,
+    accurateTrackBounce: true,
+    trackLinks: true,
+  });
 }
 
 /** Цель в Метрике: клики по кнопкам заказа и т. п. Без согласия ничего не отправляет. */

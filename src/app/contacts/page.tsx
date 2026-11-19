@@ -48,7 +48,7 @@ export default function ContactsPage() {
           </div>
         </div>
         <a href={site.mapUrl} target="_blank" rel="noopener" className="contacts__map" data-reveal style={{ "--d": "150ms" } as React.CSSProperties}>
-          <Image src={img("trousers-lowrise-black", 1)} alt="" fill sizes="(max-width: 768px) 100vw, 50vw" />
+          <Image src={img("mini-dress-black", 2)} alt="" fill sizes="(max-width: 768px) 100vw, 50vw" />
           <span className="contacts__map-cta">
             <span className="label">Как добраться</span>
             <span className="contacts__map-title">Открыть в Яндекс Картах →</span>

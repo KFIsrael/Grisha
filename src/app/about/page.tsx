@@ -23,10 +23,10 @@ export default function AboutPage() {
 
       <div className="about-pair">
         <div className="about-pair__a frame frame--wide" data-reveal>
-          <Image src={img("shirt-tencel", 2)} alt="Рубашка из тенсела" fill sizes="(max-width: 768px) 100vw, 58vw" />
+          <Image src={img("parka-fur-grey", 2)} alt="Куртка-парка с меховым капюшоном" fill sizes="(max-width: 768px) 100vw, 58vw" />
         </div>
         <div className="about-pair__b frame" data-reveal style={{ "--d": "200ms" } as React.CSSProperties}>
-          <Image src={img("trousers-lowrise-grey", 1)} alt="Укороченные брюки" fill sizes="(max-width: 768px) 50vw, 25vw" />
+          <Image src={img("skirt-drape", 5)} alt="Юбка-карандаш с драпировкой" fill sizes="(max-width: 768px) 50vw, 25vw" />
         </div>
       </div>
 

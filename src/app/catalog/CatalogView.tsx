@@ -3,14 +3,14 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import ProductCard from "@/components/ProductCard";
-import { categories, products, type CategoryKey } from "@/data/products";
+import { activeCategories, products, type CategoryKey } from "@/data/products";
 
 type Filter = "all" | "new" | CategoryKey;
 
 const filters: { key: Filter; title: string }[] = [
   { key: "all", title: "Все" },
   { key: "new", title: "Новинки" },
-  ...categories,
+  ...activeCategories,
 ];
 
 export default function CatalogView() {
