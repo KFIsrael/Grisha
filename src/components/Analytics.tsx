@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/data/site";
 
-// Яндекс Метрика загружается только после согласия на cookie (см. Политику, раздел 7).
+// Яндекс Метрика загружается сразу, плашка про cookie только уведомляет (см. Политику, раздел 7).
+// Кто раньше нажал «Отказаться» (значение "necessary"), тому Метрика по-прежнему не загружается.
 // Пока в site.metrikaId нет номера счётчика, нет ни Метрики, ни плашки.
 
 type Ym = ((id: number, method: string, ...args: unknown[]) => void) & { a?: unknown[]; l?: number };
@@ -15,9 +16,9 @@ declare global {
   }
 }
 
-const KEY = "grisha-cookie-consent"; // "all" | "necessary"
+const KEY = "grisha-cookie-consent"; // "all" — уведомление закрыто; "necessary" — отказ из прежней версии плашки
 
-// Код счётчика из кабинета Метрики (те же настройки), только загрузка — после согласия
+// Код счётчика из кабинета Метрики (те же настройки)
 function loadMetrika(id: number) {
   if (window.ym) return;
   const ym = function () {
@@ -45,7 +46,7 @@ function loadMetrika(id: number) {
   });
 }
 
-/** Цель в Метрике: клики по кнопкам заказа и т. п. Без согласия ничего не отправляет. */
+/** Цель в Метрике: клики по кнопкам заказа и т. п. Если Метрика не загружена, ничего не отправляет. */
 export function reachGoal(goal: string) {
   if (site.metrikaId && window.ym) window.ym(site.metrikaId, "reachGoal", goal);
 }
@@ -53,43 +54,42 @@ export function reachGoal(goal: string) {
 export default function Analytics() {
   const id = site.metrikaId;
   const pathname = usePathname();
+  // undefined — localStorage ещё не прочитан
   const [consent, setConsent] = useState<string | null | undefined>(undefined);
   const lastPath = useRef<string | null>(null);
+  const tracking = consent !== undefined && consent !== "necessary";
 
   useEffect(() => {
     setConsent(localStorage.getItem(KEY));
   }, []);
 
   useEffect(() => {
-    if (id && consent === "all") loadMetrika(id);
-  }, [id, consent]);
+    if (id && tracking) loadMetrika(id);
+  }, [id, tracking]);
 
   // Переходы внутри сайта без перезагрузки страницы (первый просмотр Метрика считает сама при init)
   useEffect(() => {
-    if (!id || consent !== "all" || !window.ym) return;
+    if (!id || !tracking || !window.ym) return;
     if (lastPath.current !== null && lastPath.current !== pathname) window.ym(id, "hit", window.location.href);
     lastPath.current = pathname;
-  }, [id, consent, pathname]);
+  }, [id, tracking, pathname]);
 
   if (!id || consent !== null) return null;
 
-  const choose = (value: "all" | "necessary") => {
-    localStorage.setItem(KEY, value);
-    setConsent(value);
+  const close = () => {
+    localStorage.setItem(KEY, "all");
+    setConsent("all");
   };
 
   return (
-    <div className="cookie" role="dialog" aria-label="Файлы cookie">
+    <div className="cookie" role="region" aria-label="Файлы cookie">
       <p>
-        Мы используем cookie и Яндекс Метрику, чтобы понимать, как работает сайт. Подробнее — в{" "}
-        <Link href="/privacy">Политике обработки персональных данных</Link>.
+        Мы используем cookie и Яндекс Метрику, чтобы понимать, как работает сайт. Продолжая пользоваться сайтом, вы
+        соглашаетесь с этим. Подробнее — в <Link href="/privacy">Политике обработки персональных данных</Link>.
       </p>
       <div className="cookie__actions">
-        <button className="btn" onClick={() => choose("all")}>
-          Принять
-        </button>
-        <button className="btn btn--ghost" onClick={() => choose("necessary")}>
-          Отказаться
+        <button className="btn" onClick={close}>
+          Понятно
         </button>
       </div>
     </div>

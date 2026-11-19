@@ -8,7 +8,7 @@ export const legalDocs = [
   { href: "/consent", title: "Согласие на обработку персональных данных" },
 ] as const;
 
-export const LEGAL_EDITION = "Редакция от 18 ноября 2026 года";
+export const LEGAL_EDITION = "Редакция от 19 ноября 2026 года";
 
 export default function LegalDoc({
   current,
