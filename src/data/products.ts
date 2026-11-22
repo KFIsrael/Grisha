@@ -69,6 +69,21 @@ export const products: Product[] = [
     images: 4, // артикул FW26MIDIDRESS
   },
   {
+    slug: "midi-dress-blue",
+    name: "Платье миди с пышной юбкой",
+    category: "dresses",
+    color: "Синий",
+    price: 12000,
+    isNew: true,
+    sizes: ["S", "M", "L"],
+    composition: "100% полиэстер",
+    care: "Деликатная химическая чистка; допускается отпаривание; гладить при температуре не выше 100 °C",
+    description:
+      "Нарядное платье миди с вшитыми чашечками лифа, пышной юбкой со складками и карманами в боковых швах.",
+    fit: "По фигуре",
+    images: 7, // артикул FW26MIDIDRESS; фото и таблица размеров от клиента 22.11.2026
+  },
+  {
     slug: "midi-strapless-black",
     name: "Платье-бюстье миди с пышной юбкой",
     category: "dresses",
