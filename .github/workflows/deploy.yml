@@ -5,7 +5,8 @@ name: Deploy
 #   пуш в main      -> сборка (Node 22, npm ci, npm run build) -> заливка out/ в корень сайта по FTPS
 #   ручной запуск   -> Actions -> Deploy -> Run workflow (ветка main):
 #                      поле «Коммит» пустое — выкладывается последний коммит main;
-#                      в поле хеш старого коммита — откат на него (следующий пуш в main снова выложит main);
+#                      в поле хеш старого коммита (короткий, как его показывает GitHub, или полный) —
+#                      откат на него (следующий пуш в main снова выложит main);
 #                      галочка «Пробный прогон» — только показать, что зальётся и что удалится.
 #                      Запуск из любой другой ветки — всегда только пробный прогон.
 #
@@ -33,7 +34,7 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: "Коммит (хеш). Пусто — последний коммит ветки. Для отката — хеш предыдущего коммита"
+        description: "Коммит: хеш, короткий или полный. Пусто — последний коммит ветки. Для отката — хеш предыдущего коммита"
         required: false
         default: ""
       dry_run:
@@ -55,10 +56,34 @@ jobs:
     env:
       SITE: https://grisha.shop
     steps:
+      # Вся история (репозиторий маленький): откат по короткому хешу ищет коммит в ней.
       - uses: actions/checkout@v7
         with:
-          ref: ${{ inputs.ref || github.sha }}
+          fetch-depth: 0
           persist-credentials: false
+
+      # Ручной запуск с полем «Коммит»: переключаемся на этот коммит. Принимаем короткий
+      # и полный хеш, но только из истории ветки запуска — чужой коммит на сайт не выкладываем.
+      - name: Pick commit
+        if: ${{ inputs.ref }}
+        env:
+          REF: ${{ inputs.ref }}
+        run: |
+          REF=$(printf '%s' "$REF" | tr -d '[:space:]' | tr 'A-F' 'a-f')
+          if ! printf '%s' "$REF" | grep -Eqx '[0-9a-fA-F]{7,40}'; then
+            echo "::error::В поле «Коммит» нужен хеш коммита: от 7 до 40 знаков, цифры и буквы a–f"
+            exit 1
+          fi
+          if ! sha=$(git rev-parse --verify --quiet "$REF^{commit}"); then
+            echo "::error::Коммит $REF не найден (или такой короткий хеш подходит к нескольким коммитам) — выкладка остановлена"
+            exit 1
+          fi
+          if ! git merge-base --is-ancestor "$sha" "$GITHUB_SHA"; then
+            echo "::error::Коммита $REF нет в истории ветки $GITHUB_REF_NAME — выкладка остановлена"
+            exit 1
+          fi
+          git checkout -q --detach "$sha"
+          echo "Выкладываем коммит $(git log -1 --format='%h %s')"
 
       # Без кэша npm: в запуске с доступами к хостингу кэш — лишняя дыра (подмена пакетов).
       - uses: actions/setup-node@v7
