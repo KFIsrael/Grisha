@@ -11,7 +11,8 @@
 - Next.js 16 (App Router), React 19, TypeScript
 - Оформление на обычном CSS, всё в `src/app/globals.css`. Tailwind не используется.
 - Шрифты: Cormorant Garamond для заголовков, Inter Tight для текста (подключаются через `next/font`)
-- Хостинг: Vercel
+- Хостинг: grisha.shop — на nic.ru, обычный хостинг (Apache). Сайт собирается в статику (`out/`), Node.js на сервере нет. Корень сайта на хостинге — `grisha.shop/docs`.
+- Vercel с каждого пуша собирает черновую копию сайта; она закрыта от поисковиков (`process.env.VERCEL` в `src/app/layout.tsx` и `src/app/robots.ts`).
 
 ## Структура
 
@@ -40,5 +41,9 @@
 
 ```bash
 npm run dev     # http://localhost:3000
-npm run build
+npm run build   # статичный сайт в out/
 ```
+
+Выкладка: каждый пуш в `main` сам собирает сайт и заливает `out/` на nic.ru по FTPS (`.github/workflows/deploy.yml`). Ход и ошибки видны во вкладке Actions; упавшая сборка на сайт не попадает. Доступы — только в секретах репозитория (`DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_PASSWORD`), в код и сюда их не писать. Папка сайта на хостинге — обычная переменная репозитория `DEPLOY_PATH` (вкладка Variables рядом с секретами): доступа в ней нет.
+Откат: Actions → Deploy → Run workflow на ветке `main`, в поле «Коммит» — хеш нужного коммита. Следующий пуш в `main` снова выложит `main`. Галочка «Пробный прогон» показывает, что зальётся и что удалится, ничего не меняя.
+Вручную сайт для заливки на Windows не собирать: Next кладёт служебные файлы переходов в папки `__next.*`, и браузер их не находит.

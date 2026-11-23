@@ -1,0 +1,193 @@
+name: Deploy
+
+# Выкладка сайта на https://grisha.shop (обычный хостинг nic.ru, Apache; Node.js на сервере нет).
+#
+#   пуш в main      -> сборка (Node 22, npm ci, npm run build) -> заливка out/ в корень сайта по FTPS
+#   ручной запуск   -> Actions -> Deploy -> Run workflow (ветка main):
+#                      поле «Коммит» пустое — выкладывается последний коммит main;
+#                      в поле хеш старого коммита — откат на него (следующий пуш в main снова выложит main);
+#                      галочка «Пробный прогон» — только показать, что зальётся и что удалится.
+#                      Запуск из любой другой ветки — всегда только пробный прогон.
+#
+# Упала сборка или проверка сборки — на сайт ничего не уходит.
+# Две выкладки одновременно не идут: новая ждёт, пока закончится текущая.
+#
+# Почему FTPS, а не SFTP: на nic.ru по SFTP пускает только главный логин хостинга (доступ ко всему),
+# а пользователя с доступом только к папке сайта можно завести лишь для FTP. FTP без шифрования
+# не используем.
+#
+# Доступы — только в секретах репозитория (Settings -> Secrets and variables -> Actions -> Secrets):
+#   DEPLOY_HOST      адрес FTP-сервера nic.ru
+#   DEPLOY_USER      отдельный FTP-пользователь с доступом только к папке сайта
+#   DEPLOY_PASSWORD  его пароль
+# GitHub скрывает значения секретов в логах; пароль lftp берёт из переменной окружения,
+# а не из командной строки.
+#
+# Папка сайта — обычная переменная репозитория (там же, вкладка Variables), не секрет:
+#   DEPLOY_PATH      папка сайта, как её видит FTP-пользователь (сейчас «/»)
+# В ней нет доступа, а секрет «/» GitHub прятал бы в логах вместе с каждой косой чертой.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Коммит (хеш). Пусто — последний коммит ветки. Для отката — хеш предыдущего коммита"
+        required: false
+        default: ""
+      dry_run:
+        description: "Пробный прогон: показать, что зальётся и что удалится, ничего не меняя"
+        type: boolean
+        default: false
+
+concurrency:
+  group: deploy-grisha-shop
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SITE: https://grisha.shop
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
+
+      # Без кэша npm: в запуске с доступами к хостингу кэш — лишняя дыра (подмена пакетов).
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Build
+        run: |
+          npm ci
+          npm run build
+
+      # Сборка должна быть целой: главная, своя 404, переадресации (.htaccess).
+      # Папка с именем __next.* — признак сборки на Windows: Next кладёт служебные файлы
+      # переходов во вложенные папки, и браузер их не находит. Такую сборку не выкладываем.
+      - name: Check build
+        run: |
+          for f in out/index.html out/404.html out/.htaccess; do
+            [ -f "$f" ] || { echo "::error::В сборке нет $f — выкладка остановлена"; exit 1; }
+          done
+          if [ -n "$(find out -type d -name '__next.*' -print -quit)" ]; then
+            echo "::error::В сборке есть папки __next.* — служебные файлы переходов разложены неправильно"
+            exit 1
+          fi
+          echo "Сборка коммита $(git rev-parse --short HEAD): $(find out -type f | wc -l) файлов, $(du -sh out | cut -f1)"
+
+      - name: Install lftp
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+
+      - name: Upload
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          LFTP_PASSWORD: ${{ secrets.DEPLOY_PASSWORD }}
+          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+          DRY_RUN: ${{ (inputs.dry_run || github.ref != 'refs/heads/main') && 'yes' || '' }}
+        run: |
+          for v in DEPLOY_HOST DEPLOY_USER LFTP_PASSWORD DEPLOY_PATH; do
+            if [ -z "${!v}" ]; then
+              case "$v" in
+                LFTP_PASSWORD) echo "::error::Не задан секрет DEPLOY_PASSWORD" ;;
+                DEPLOY_PATH)   echo "::error::Не задана переменная DEPLOY_PATH (Settings -> Secrets and variables -> Actions -> Variables)" ;;
+                *)             echo "::error::Не задан секрет $v" ;;
+              esac
+              exit 1
+            fi
+          done
+
+          # Сертификат FTP-сервера nic.ru выписан на *.nichost.ru, а сам сервер на уровень глубже
+          # (ftp.<логин>.nichost.ru), поэтому проверку имени в lftp приходится выключить.
+          # Взамен проверяем сами: сервер обязан предъявить действующий сертификат на *.nichost.ru.
+          if ! openssl s_client -starttls ftp -connect "$DEPLOY_HOST:21" -servername "$DEPLOY_HOST" \
+               -verify_return_error -verify_hostname check.nichost.ru </dev/null >/dev/null 2>&1; then
+            echo "::error::FTP-сервер не предъявил действующий сертификат *.nichost.ru — выкладка остановлена"
+            exit 1
+          fi
+
+          cat > ~/.lftprc <<'EOF'
+          set cmd:fail-exit yes
+          set net:timeout 30
+          set net:max-retries 3
+          set net:reconnect-interval-base 5
+          set ftp:passive-mode yes
+          set ftp:ssl-force yes
+          set ftp:ssl-protect-data yes
+          set ftp:ssl-protect-list yes
+          set ssl:verify-certificate yes
+          set ssl:check-hostname no
+          EOF
+
+          # Не наше на хостинге — не удаляем: подтверждение https и владения сайтом,
+          # настройки доступа nic.ru.
+          EXCLUDE="--exclude-glob .well-known/ --exclude-glob cgi-bin/ --exclude-glob .ftpaccess --exclude-glob yandex_*.html --exclude-glob google*.html"
+          OPEN="open -u \"$DEPLOY_USER\" --env-password \"ftp://$DEPLOY_HOST\""
+          # Без косой черты на конце: с ней lftp положил бы сайт во вложенную папку out/.
+          REMOTE="${DEPLOY_PATH%/}"
+          REMOTE="${REMOTE:-/}"
+
+          # Защита от ошибки в DEPLOY_PATH: заливаем и удаляем лишнее только в папке,
+          # где уже лежит сайт (index.html). Иначе --delete снёс бы чужое.
+          if ! lftp -c "$OPEN; cd \"$REMOTE\"; cls -1" | grep -qx 'index.html'; then
+            echo "::error::На хостинге нет папки DEPLOY_PATH или в ней нет index.html — это не папка сайта? Выкладка остановлена"
+            exit 1
+          fi
+
+          if [ -n "$DRY_RUN" ]; then
+            echo "Пробный прогон: на хостинге ничего не меняется. Ниже — что изменилось бы: rm — удалится, mkdir — новая папка, остальные строки — зальётся."
+            lftp -c "$OPEN; mirror --reverse --delete --dry-run --no-perms $EXCLUDE out \"$REMOTE\""
+            exit 0
+          fi
+
+          # Три прохода, чтобы посетитель не застал страницу без её файлов:
+          # 1) скрипты, стили и фото; 2) страницы; 3) удаление того, чего больше нет в сборке.
+          lftp -c "$OPEN; mirror --reverse --no-perms --parallel=3 --verbose --exclude-glob *.html --exclude-glob *.txt $EXCLUDE out \"$REMOTE\""
+          lftp -c "$OPEN; mirror --reverse --no-perms --parallel=3 --verbose $EXCLUDE out \"$REMOTE\""
+          lftp -c "$OPEN; mirror --reverse --no-perms --delete --verbose $EXCLUDE out \"$REMOTE\""
+          lftp -c "$OPEN; cd \"$REMOTE\"; cls -l .htaccess"
+
+      # Сайт должен отдавать ровно эту сборку, а .htaccess — работать.
+      - name: Check site
+        if: ${{ !(inputs.dry_run || github.ref != 'refs/heads/main') }}
+        run: |
+          fail=0
+          same() {
+            want=$(md5sum < "$2" | cut -c1-32)
+            for _ in 1 2 3 4 5 6; do
+              got=$(curl -sS --max-time 20 "$1" | md5sum | cut -c1-32)
+              if [ "$got" = "$want" ]; then echo "ok   $1"; return; fi
+              sleep 5
+            done
+            echo "::error::$1 отдаёт не то, что в сборке"; fail=1
+          }
+          redirect() {
+            got=$(curl -sS --max-time 20 -o /dev/null -w '%{http_code} %{redirect_url}' "$1")
+            if [ "$got" = "301 $2" ]; then echo "ok   $1 -> $2"; else echo "::error::$1: ждали 301 на $2, а пришло: $got"; fail=1; fi
+          }
+          same "$SITE/" out/index.html
+          same "$SITE/catalog/" out/catalog/index.html
+          same "$SITE/sitemap.xml" out/sitemap.xml
+          same "$SITE/__next.__PAGE__.txt" out/__next.__PAGE__.txt
+          redirect "http://grisha.shop/" "https://grisha.shop/"
+          redirect "https://www.grisha.shop/" "https://grisha.shop/"
+          code=$(curl -sS --max-time 20 -o not-found.html -w '%{http_code}' "$SITE/net-takoj-stranicy-$GITHUB_RUN_ID/")
+          if [ "$code" = 404 ] && cmp -s not-found.html out/404.html; then
+            echo "ok   несуществующий адрес -> 404, наша страница"
+          else
+            echo "::error::Несуществующий адрес: код $code, страница $(cmp -s not-found.html out/404.html && echo наша || echo НЕ наша)"; fail=1
+          fi
+          [ "$fail" = 0 ] && echo "Выложено: $SITE, коммит $(git rev-parse --short HEAD)"
+          exit $fail
