@@ -154,6 +154,9 @@ jobs:
           set ftp:ssl-protect-list yes
           set ssl:verify-certificate yes
           set ssl:check-hostname no
+          set xfer:use-temp-file yes
+          set xfer:temp-file-name .in.*
+          set mirror:exclude-regex "(^|/)\\.nfs"
           EOF
 
           # Не наше на хостинге — не удаляем: подтверждение https и владения сайтом,
@@ -179,6 +182,10 @@ jobs:
 
           # Три прохода, чтобы посетитель не застал страницу без её файлов:
           # 1) скрипты, стили и фото; 2) страницы; 3) удаление того, чего больше нет в сборке.
+          # Каждый файл заливается рядом под временным именем (.in.<имя>) и одним переименованием
+          # встаёт на место старого — файл на сайте не пропадает и не бывает недолитым.
+          # Временные файлы оборванной выкладки удалит третий проход: их нет в сборке
+          # (по умолчанию lftp файлы .in.* не замечает — это снято в mirror:exclude-regex выше).
           lftp -c "$OPEN; mirror --reverse --no-perms --parallel=3 --verbose --exclude-glob *.html --exclude-glob *.txt $EXCLUDE out \"$REMOTE\""
           lftp -c "$OPEN; mirror --reverse --no-perms --parallel=3 --verbose $EXCLUDE out \"$REMOTE\""
           lftp -c "$OPEN; mirror --reverse --no-perms --delete --verbose $EXCLUDE out \"$REMOTE\""
